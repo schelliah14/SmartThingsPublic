@@ -228,7 +228,7 @@ def adddimmerLightSwitches() {
             debug("Mac: " + selectedDimmerLightSwitch.value.mac)
             debug("Hub: " + (selectedDimmerLightSwitch?.value.hub))
             debug("Data: " + data)
-            d = addChildDevice("sirtwist", "Wemo Dimmer", selectedDimmerLightSwitch.value.mac, selectedDimmerLightSwitch?.value.hub, data)
+            d = addChildDevice("sirtwist", "Wemo WiFi Smart Dimmer", selectedDimmerLightSwitch.value.mac, selectedDimmerLightSwitch?.value.hub, data)
         }
     }
 }
