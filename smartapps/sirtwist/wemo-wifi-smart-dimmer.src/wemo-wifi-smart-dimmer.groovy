@@ -73,7 +73,7 @@ def firstPage() {
         if (!state.subscribe) { 
           debug("Subscribe to location")
           // subscribe to answers from HUB
-          subscribe(location, "ssdpTerm.urn:Belkin:service:basicevent:1", locationHandler, [filterEvents:false])
+          subscribe(location, null, locationHandler, [filterEvents:false])
           state.subscribe = true
         }
 
@@ -351,4 +351,12 @@ private Boolean hasAllHubsOver(String desiredFirmware) {
 
 private List getRealHubFirmwareVersions() {
     return location.hubs*.firmwareVersionString.findAll { it }
+}
+
+private Integer convertHexToInt(hex) {
+	Integer.parseInt(hex,16)
+}
+
+private String convertHexToIP(hex) {
+	[convertHexToInt(hex[0..1]),convertHexToInt(hex[2..3]),convertHexToInt(hex[4..5]),convertHexToInt(hex[6..7])].join(".")
 }
