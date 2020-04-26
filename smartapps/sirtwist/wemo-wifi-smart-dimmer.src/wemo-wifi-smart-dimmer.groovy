@@ -78,8 +78,6 @@ def firstPage() {
           state.subscribe = true
 //        }
 
-        }
-
         //ssdp request every 25 seconds
         if((refreshCount % 5) == 0) {
             discoverAllWemoTypes()
