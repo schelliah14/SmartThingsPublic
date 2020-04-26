@@ -70,11 +70,14 @@ def firstPage() {
 
         debug("REFRESH COUNT :: ${refreshCount}")
 
-        if (!state.subscribe) { 
-          debug("Subscribe to location")
+//        Always resubscribe to location events, as the subscription may have gone stale
+//        if (!state.subscribe) { 
+          debug("Subscribe to location, previous subscribption state ${state.subscribe}")
           // subscribe to answers from HUB
           subscribe(location, null, locationHandler, [filterEvents:false])
           state.subscribe = true
+//        }
+
         }
 
         //ssdp request every 25 seconds
@@ -254,14 +257,14 @@ def locationHandler(evt) {
             debug("New device discovered")
             dimmerLightSwitches << ["${parsedEvent.ssdpUSN.toString()}":parsedEvent]
         } else { // just update the values
-            debug("Updating devices")
+            debug("Existing device ${parsedEvent.ssdpUSN.toString()}")
             def d = dimmerLightSwitches."${parsedEvent.ssdpUSN.toString()}"
             if(d.ip != parsedEvent.ip || d.port != parsedEvent.port) {
                 d.ip = parsedEvent.ip
                 d.port = parsedEvent.port
                 def child = getChildDevice(parsedEvent.mac)
                 if (child) {
-                   debug("Triggering subscribe on: ${parsedEvent.mac} ${parsedEvent.ip} ${parsedEvent.port}")
+                   debug("IP/Port updated, triggering subscribe on: ${parsedEvent.mac} ${parsedEvent.ip} ${parsedEvent.port}")
                    child.subscribe(parsedEvent.ip, parsedEvent.port)   
                 }
             }
