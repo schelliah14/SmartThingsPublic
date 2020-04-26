@@ -286,7 +286,7 @@ def subscribe(ip, port) {
         updateDataValue("port", port)
     }
 
-    subscribe("${ip}:${port}")
+    subscribe(getHostAddress())
 }
 
 def resubscribe() {
